@@ -20,7 +20,7 @@ public class testAuto extends LinearOpMode {
         while(opModeIsActive())
         {
             testMotor.setPower(1);
-            Thread.sleep(5000);
+            Thread.sleep(1000);
         }
     }
 }
