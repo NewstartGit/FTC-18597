@@ -69,10 +69,13 @@ public class MechanumClass
         // delay
         Thread.sleep(delay);
 
+        /*
         telemetry.addData("FL", ADPower);
         telemetry.addData("BL", BCPower);
         telemetry.addData("FR", BCPower);
         telemetry.addData("BR", ADPower);
         telemetry.update();
+        *
+         */
     }
 }
