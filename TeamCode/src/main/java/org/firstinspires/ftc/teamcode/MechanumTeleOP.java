@@ -38,10 +38,10 @@ public class MechanumTeleOP extends LinearOpMode
 
             drive.teleOP(power,pivot,vertical,horizontal);
 
-            telemetry.addData("frontLeft: ", -power * pivot + (power *(-vertical - horizontal)));
-            telemetry.addData("frontRight: ", power * pivot + (power *(-vertical + horizontal)));
-            telemetry.addData("backLeft: ", -power * pivot + (power *(-vertical + horizontal)));
-            telemetry.addData("backRight: ", power * pivot + (power * (-vertical - horizontal)));
+            telemetry.addData("Front Left: ", -power * pivot + (power *(-vertical - horizontal)));
+            telemetry.addData("Front Right: ", power * pivot + (power *(-vertical + horizontal)));
+            telemetry.addData("Back Left: ", -power * pivot + (power *(-vertical + horizontal)));
+            telemetry.addData("Back Right: ", power * pivot + (power * (-vertical - horizontal)));
 
             telemetry.addData("Pivot: ", pivot);
             telemetry.addData("Vertical: ", vertical);
