@@ -26,6 +26,14 @@ public class MechanumClass
         backLeft.setDirection(DcMotor.Direction.REVERSE);
     }
 
+    public void teleOP(double power, double pivot, double vertical, double horizontal)
+    {
+        frontLeft.setPower(-power * pivot + (power *(-vertical - horizontal)));
+        frontRight.setPower(-power * pivot + (power *(-vertical + horizontal)));
+        backLeft.setPower(power * pivot + (power *(-vertical + horizontal)));
+        backRight.setPower(power * pivot + (power * (-vertical - horizontal)));
+    }
+
     public void drive(double angle, double power, long delay, int position) throws InterruptedException
     {
         // converts the degrees that is inputted to radians
