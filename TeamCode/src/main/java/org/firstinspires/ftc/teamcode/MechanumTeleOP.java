@@ -36,6 +36,15 @@ public class MechanumTeleOP extends LinearOpMode
             double vertical = gamepad1.left_stick_y;
             double pivot = -gamepad1.right_stick_x;
 
+            if(gamepad1.dpad_up && power != 1)
+            {
+                power+=.25;
+            }
+            if(gamepad1.dpad_down && power != .25)
+            {
+                power-=.25;
+            }
+
             drive.teleOP(power,pivot,vertical,horizontal);
 
             telemetry.addData("Front Left: ", -power * pivot + (power *(-vertical - horizontal)));
