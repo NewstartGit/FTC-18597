@@ -17,6 +17,21 @@ public class MechanumClass
     DcMotor backLeft;
     DcMotor backRight;
 
+    public double getEncoderVal(int encoder)
+    {
+        //0 = front left motor
+        //1 = front right motor
+        //3 =
+        switch(encoder) {
+            case 0:
+                return frontLeft.getCurrentPosition();
+            case 1:
+                return -frontRight.getCurrentPosition();
+            default:
+                return 0;
+        }
+    }
+
     public void init(HardwareMap hwMap)
     {
         frontLeft = hwMap.get(DcMotor.class,"frontLeft");
@@ -46,6 +61,7 @@ public class MechanumClass
         double BCPower = power * Math.sqrt(2) * 0.5 * (Math.sin(radAngle) - Math.cos(radAngle));
 
         // tells the motors to run using the encoder
+
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -88,5 +104,15 @@ public class MechanumClass
         telemetry.update();
         *
          */
+    }
+
+    public void driveForward(double speed, long delay) throws InterruptedException
+    {
+        frontLeft.setPower(speed);
+        frontRight.setPower(speed);
+        backLeft.setPower(speed);
+        backRight.setPower(speed);
+
+        Thread.sleep(delay);
     }
 }

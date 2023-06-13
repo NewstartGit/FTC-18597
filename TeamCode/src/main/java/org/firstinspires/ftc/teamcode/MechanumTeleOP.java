@@ -27,6 +27,7 @@ public class MechanumTeleOP extends LinearOpMode
 
         drive.init(hardwareMap);
 
+
         waitForStart();
         runtime.reset();
 
@@ -46,6 +47,9 @@ public class MechanumTeleOP extends LinearOpMode
             }
 
             drive.teleOP(power,pivot,vertical,horizontal);
+
+            telemetry.addData("x1 encoder val", drive.getEncoderVal(1));
+            telemetry.addData("x2 encoder val", drive.getEncoderVal(0));
 
             telemetry.addData("Front Left: ", -power * pivot + (power *(-vertical - horizontal)));
             telemetry.addData("Front Right: ", power * pivot + (power *(-vertical + horizontal)));
