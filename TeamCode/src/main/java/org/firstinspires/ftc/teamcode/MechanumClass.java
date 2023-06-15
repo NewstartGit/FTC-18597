@@ -17,22 +17,24 @@ public class MechanumClass
     DcMotor backLeft;
     DcMotor backRight;
 
-    public double getEncoderVal(int encoder)
+    public double getEncoderVal(String encoder)
     {
         //0 = front left motor
         //1 = front right motor
         //3 =
         switch(encoder) {
-            case 0:
-                return frontLeft.getCurrentPosition();
-            case 1:
+            case "x1":
                 return -frontRight.getCurrentPosition();
+            case "x2":
+                return frontLeft.getCurrentPosition();
+            case "y":
+                return backLeft.getCurrentPosition();
             default:
                 return 0;
         }
     }
 
-    public void init(HardwareMap hwMap)
+    public void init(HardwareMap hwMap, boolean autoMode)
     {
         frontLeft = hwMap.get(DcMotor.class,"frontLeft");
         frontRight = hwMap.get(DcMotor.class,"frontRight");
@@ -41,6 +43,15 @@ public class MechanumClass
 
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
+
+        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
     }
 
     public void teleOP(double power, double pivot, double vertical, double horizontal)
@@ -62,10 +73,10 @@ public class MechanumClass
 
         // tells the motors to run using the encoder
 
-        frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // stops and resets the encoders so that the position isnt repeated
         frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -77,6 +88,7 @@ public class MechanumClass
         double BCPositionPower = position * BCPower;
         // AD & BC move the same power
         // sets the target position to the multiplied position power
+        /*
         frontLeft.setTargetPosition((int)ADPositionPower);
         frontRight.setTargetPosition((int)BCPositionPower);
         backLeft.setTargetPosition((int)BCPositionPower);
@@ -86,7 +98,7 @@ public class MechanumClass
         frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
+        */
         // set the motors
         // powers the motors using the original power values
         frontLeft.setPower(ADPower);
@@ -94,25 +106,21 @@ public class MechanumClass
         backLeft.setPower(BCPower);
         backRight.setPower(ADPower);
         // delay
-        Thread.sleep(delay);
+        //Thread.sleep(delay);
 
-        /*
-        telemetry.addData("FL", ADPower);
-        telemetry.addData("BL", BCPower);
-        telemetry.addData("FR", BCPower);
-        telemetry.addData("BR", ADPower);
-        telemetry.update();
-        *
-         */
     }
 
-    public void driveForward(double speed, long delay) throws InterruptedException
-    {
-        frontLeft.setPower(speed);
-        frontRight.setPower(speed);
-        backLeft.setPower(speed);
-        backRight.setPower(speed);
 
-        Thread.sleep(delay);
+    public void driveForward(double speed, long delay, int position) throws InterruptedException
+    {
+        while(position > getEncoderVal("y")) {
+            frontLeft.setPower(speed);
+            frontRight.setPower(-speed);
+            backLeft.setPower(-speed);
+            backRight.setPower(speed);
+        }
+
+
+        //Thread.sleep(delay);
     }
 }
